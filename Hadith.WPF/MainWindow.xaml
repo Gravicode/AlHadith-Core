@@ -1,0 +1,205 @@
+﻿<Window x:Class="Hadith.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowState="Maximized"
+        Title="Al-Hadith" Height="720" Width="1280" Loaded="Window_Loaded" ResizeMode="NoResize" Closing="Window_Closing" Icon="Hadith.ico">
+    <Grid>
+        <Grid.Resources>
+            <!-- This style is used for buttons, to remove the WPF default 'animated' mouse over effect -->
+            <Style x:Key="MyButtonStyle" TargetType="Button">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="border" 
+                            BorderThickness="0"
+                            Padding="0" 
+                            BorderBrush="Transparent" 
+                            CornerRadius="0" 
+                            Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#D93600" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid.Background>
+            <SolidColorBrush Color="Black">
+
+            </SolidColorBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Background="#003040"  Grid.Row="0" Grid.Column="0">
+            <Image Margin="10 10 10 10" Stretch="Uniform" Source="images/icons/Logo.png"  ></Image>
+        </DockPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+            <Expander Background="#005F7D" Name="ExpanderSearch">
+                <Expander.Header>
+                    
+                    <StackPanel Orientation="Vertical">
+                        <Label Foreground="White" Content="SEARCH" FontWeight="Bold" Margin="0 0 0 -15"></Label>
+                        <Label Foreground="White" Name="SearchLbl" Content="Type a keyword to explore hadith"></Label>
+                    </StackPanel>
+                </Expander.Header>
+
+            </Expander>
+            <Separator Background="#00789F" />
+            <Expander Background="#005F7D" Name="ExpanderLanguage" Grid.Column="0">
+                <Expander.Header>
+                    <StackPanel Orientation="Vertical">
+                        <Label Foreground="White" Content="LANGUAGE" FontWeight="Bold" Margin="0 0 0 -15"></Label>
+                        <Label Foreground="White" Name="Langlbl" Content="English"></Label>
+                    </StackPanel>
+                </Expander.Header>
+
+            </Expander>
+            <Separator Background="#00789F" />
+            <Expander Background="#005F7D" Name="ExpanderHadith" Grid.Column="0">
+                <Expander.Header>
+                    <StackPanel Orientation="Vertical">
+                        <Label Foreground="White" Content="LIST OF BOOK" FontWeight="Bold" Margin="0 0 0 -15"></Label>
+                        <Label Foreground="White" Name="HadithLbl" Content="Shahih Bukhori"></Label>
+                    </StackPanel>
+                </Expander.Header>
+
+            </Expander>
+            <Separator Background="#00789F" />
+            <Expander Background="#005F7D" Name="ExpanderPage" Grid.Column="0">
+                <Expander.Header>
+                    <StackPanel Orientation="Vertical">
+                        <Label Foreground="White" Content="LIST OF KITAB" FontWeight="Bold" Margin="0 0 0 -15"></Label>
+                        <Label Foreground="White" Name="PageLbl" Content="Revelation"></Label>
+                    </StackPanel>
+                </Expander.Header>
+
+            </Expander>
+
+            <Separator Background="#00789F" />
+            <Expander Background="#005F7D" Name="ExpanderChapter" Grid.Column="0">
+                <Expander.Header>
+                    <StackPanel Orientation="Vertical">
+                        <Label Foreground="White" Content="LIST OF CHAPTER" FontWeight="Bold" Margin="0 0 0 -15"></Label>
+                        <Label Foreground="White" Name="ChapterLbl" Content="Chapter: The statement of the Prophet (saws) 'Islam is based on five principles'"></Label>
+                    </StackPanel>
+                </Expander.Header>
+
+            </Expander>
+            
+            <Separator BorderBrush="White" />
+            <Expander Background="#005F7D" Name="ExpanderBookmark" Grid.Column="0">
+                <Expander.Header>
+                    <StackPanel Orientation="Vertical">
+                        <Label Foreground="White" Content="BOOKMARK" FontWeight="Bold" Margin="0 0 0 -15"></Label>
+                        <Label Foreground="White" Name="BookmarkLbl" Content="Bookmark list"></Label>
+                    </StackPanel>
+                </Expander.Header>
+
+            </Expander>
+            <Separator Background="#00789F" />
+            <Expander Visibility="Hidden"  Background="#005F7D" Name="ExpanderSetting" Grid.Column="0">
+                <Expander.Header>
+                    <StackPanel Orientation="Vertical">
+                        <Label Foreground="White" Content="SETTINGS" FontWeight="Bold" Margin="0 0 0 -15"></Label>
+                        <Label Foreground="White" Name="SettingsLbl" Content="Configure your app"></Label>
+                    </StackPanel>
+                </Expander.Header>
+
+            </Expander>
+            <Separator Visibility="Hidden" Background="#00789F" />
+        </StackPanel>
+
+        <Grid HorizontalAlignment="Stretch" Background="#003040" Grid.Row="0" Grid.Column="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto" ></ColumnDefinition>
+                
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Name="PlayBtn" Style="{StaticResource MyButtonStyle}">
+                <StackPanel Margin="10"  Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Margin="0 10 0 10" Source="Images/Icons/play-active.png"  ></Image>
+                    <TextBlock Margin="5 0 0 0" VerticalAlignment="Center" Text="PLAY HADITH" Foreground="White"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Rectangle Grid.Column="1" Fill="White" Width="1" Margin="0 10 0 10" ></Rectangle>
+            <Button Grid.Column="2" Name="StopBtn" Style="{StaticResource MyButtonStyle}">
+                <StackPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Margin="0 10 0 10" Source="Images/Icons/stop-active.png"  ></Image>
+                    <TextBlock  Margin="5 0 0 0" VerticalAlignment="Center" Text="STOP" Foreground="White"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Rectangle Grid.Column="3" Fill="White" Width="1" Margin="0 10 0 10" ></Rectangle>
+            <Button Grid.Column="4" Name="SpeechBtn" Style="{StaticResource MyButtonStyle}">
+                <StackPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Name="ImgSpeech" Margin="0 10 0 10" Source="Images/Icons/auto-speech-active.png"  ></Image>
+                    <TextBlock  Margin="5 0 0 0" VerticalAlignment="Center" Text="AUTO SPEECH" Foreground="White"></TextBlock>
+                </StackPanel>
+            </Button >
+            <Rectangle Grid.Column="5" Fill="White" Width="1" Margin="0 10 0 10" ></Rectangle>
+            <Button Grid.Column="6" Name="GestureBtn" Style="{StaticResource MyButtonStyle}">
+                <StackPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Margin="0 10 0 10" Source="Images/Icons/gesture-active.png"  ></Image>
+                    <TextBlock  Margin="5 0 0 0" VerticalAlignment="Center" Text="GESTURES" Foreground="White"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Rectangle Grid.Column="7" Fill="White" Width="1" Margin="0 10 0 10" ></Rectangle>
+            <Button Grid.Column="8" Name="VoiceBtn" Style="{StaticResource MyButtonStyle}">
+                <StackPanel Margin="10" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Margin="0 10 0 10" Source="Images/Icons/voice-command-active.png"  ></Image>
+                    <TextBlock  Margin="5 0 0 0" VerticalAlignment="Center" Text="VOICE COMMAND" Foreground="White"></TextBlock>
+                </StackPanel>
+            </Button>
+            <Rectangle Grid.Column="9" Fill="White" Width="1" Margin="0 10 0 10" ></Rectangle>
+            <StackPanel Grid.Column="10" Margin="5 10 5 10" Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Margin="0 10 0 10" Source="Images/Icons/volume-slider.png"   ></Image>
+                <Slider Name="VolumeSlider" Minimum="0" Maximum="1" Value="0.5"  VerticalAlignment="Center" Width="120" />
+            </StackPanel>
+            <Rectangle Grid.Column="11" Fill="White" Width="1" Margin="0 10 0 10" ></Rectangle>
+            <StackPanel Grid.Column="12" Margin="5 10 5 10" Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Margin="0 10 0 10" Source="Images/Icons/font-resizer.png"  ></Image>
+                <Slider Name="FontSlider" Minimum="12" Maximum="30" Value="16" VerticalAlignment="Center" Width="120" />
+            </StackPanel>
+        </Grid>
+        
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Background="#FF8000" Grid.Row="0" Orientation="Horizontal" >
+                <TextBlock Margin="10 0 0 0" Text="NOW SHOWING:" FontWeight="SemiBold" FontSize="14" VerticalAlignment="Center">                    
+                </TextBlock>
+                <TextBlock Margin="10 0 0 0" Text="Shahih Al-Bukhori - Revelation" Name="NowLatinLbl" FontSize="14" VerticalAlignment="Center" Foreground="White">
+                </TextBlock>
+                <TextBlock Margin="10 0 0 0" Text="كتاب التمنى " FlowDirection="LeftToRight" FontFamily="/Hadith.WPF;component/Resources/UthmanicHafs1Ver09.otf#KFGQPC Uthmanic Script HAFS" Name="NowArabicLbl" FontSize="14" VerticalAlignment="Center" Foreground="White">
+                </TextBlock>
+
+            </StackPanel>
+            <DockPanel Name="HDPanel" Grid.Row="1"></DockPanel>
+        </Grid>
+        <MediaElement Name="HadithPlayer" Visibility="Hidden" Grid.Row="0"></MediaElement>
+    </Grid>
+</Window>

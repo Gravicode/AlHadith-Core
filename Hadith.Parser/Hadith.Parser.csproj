@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hadith.Parser</RootNamespace>
+    <AssemblyName>Hadith.Parser</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SHDocVw">
+      <HintPath>..\packages\WatiN.2.1.0\lib\net40\Interop.SHDocVw.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <Private>True</Private>
+      <HintPath>..\packages\WatiN.2.1.0\lib\net40\Microsoft.mshtml.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WatiN.Core">
+      <HintPath>..\packages\WatiN.2.1.0\lib\net40\WatiN.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Crawled.cs">
+      <DependentUpon>Hadith2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hadith.cs">
+      <DependentUpon>Hadith2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hadith2.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Hadith2.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hadith2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Hadith2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Hadith2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Hadith2.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="HadithChapter.cs">
+      <DependentUpon>Hadith2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HadithContent.cs">
+      <DependentUpon>Hadith2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HadithIndex.cs">
+      <DependentUpon>Hadith2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HadithModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HadithModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HadithModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HadithModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HadithModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HadithModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="HadithPage.cs">
+      <DependentUpon>Hadith2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MyWebClient.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="HadithModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HadithModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EntityDeploy Include="Hadith2.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Hadith2.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Hadith2.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Hadith2.edmx</DependentUpon>
+      <LastGenOutput>Hadith2.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Hadith2.edmx.diagram">
+      <DependentUpon>Hadith2.edmx</DependentUpon>
+    </None>
+    <None Include="Hadith2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Hadith2.edmx</DependentUpon>
+      <LastGenOutput>Hadith2.cs</LastGenOutput>
+    </None>
+    <None Include="HadithModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HadithModel.edmx</DependentUpon>
+      <LastGenOutput>HadithModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="HadithModel.edmx.diagram">
+      <DependentUpon>HadithModel.edmx</DependentUpon>
+    </None>
+    <None Include="HadithModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>HadithModel.edmx</DependentUpon>
+      <LastGenOutput>HadithModel.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HTMLPage1.html" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

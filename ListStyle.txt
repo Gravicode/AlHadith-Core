@@ -1,0 +1,30 @@
+ <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                        </Style.Resources>
+                    </Style>
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="Control.IsMouseOver" Value="True">
+                                <Setter Property="Control.BorderThickness" Value="0" />
+                                <Setter Property="Control.Background" Value="Transparent" />
+                            </Trigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+<ListView.ItemContainerStyle>
+                <Style>
+                    <Style.Triggers>
+                        <Trigger Property="Control.IsMouseOver" Value="True">
+                            <Setter Property="Control.BorderThickness" Value="0" />
+                            <Setter Property="Control.Background" Value="Transparent" />
+                        </Trigger>
+
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>

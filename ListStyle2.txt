@@ -1,0 +1,10 @@
+ <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <!--<StackPanel/>
+                    If StackPanel was used, the memory consumed was over 2GB and dead slow.
+                    -->
+                        <VirtualizingStackPanel>
+                            <!--Memory footprint is only 200 mb-->
+                        </VirtualizingStackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>

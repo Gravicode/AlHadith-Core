@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="05205a6ff8104bd9b9a3ec0351452d27" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="HadithDBModel.Crawled" Width="1.5" PointX="9.7877720397840129" PointY="17.967251786015581" />
+        <EntityTypeShape EntityType="HadithDBModel.Hadith" Width="1.5" PointX="10.76809866482769" PointY="30.935231431822867" />
+        <EntityTypeShape EntityType="HadithDBModel.HadithChapter" Width="1.5" PointX="1.6698294904408182" PointY="19.112851539213608" />
+        <EntityTypeShape EntityType="HadithDBModel.HadithContent" Width="1.5" PointX="7.5688233913708594" PointY="10.432498146981233" />
+        <EntityTypeShape EntityType="HadithDBModel.HadithIndex" Width="1.5" PointX="9.0759868068043072" PointY="3.9978750813742518" />
+        <EntityTypeShape EntityType="HadithDBModel.HadithPage" Width="1.5" PointX="9.76625020698004" PointY="14.724416635336548" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

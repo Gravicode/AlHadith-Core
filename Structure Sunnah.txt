@@ -1,0 +1,112 @@
+struktur sunnah.com
+----------------------------------
+About perowih page (/about): 50%
+
+title:
+abouttitle
+
+content:
+about
+
+----------------------------------
+Index page (daftar isi hadist besar):
+
+#title container:
+colindextitle (pertama adalah nama perowih)
+
+latin :
+no div
+
+arabic:
+arabic
+
+colindextitle (kedua adalah brief tentang perowih)
+
+Daftar isi (berulang setiap judul page):
+book_titles > book_title
+
+nomor:
+book_number
+
+latin:
+english_book_name
+
+arabic :
+arabic arabic_book_name
+
+range (hadist nomor dari dan ke)
+book_range > 
+book_range_from (yg pertama adalah from)
+book_range_from (yg kedua adalah to)
+
+
+----------------------------------
+Di awal halaman (hanya sekali di awal halaman) :
+
+judul kategori :
+book_page_english_name
+
+in arabic:
+book_page_arabic_name arabic
+
+nomor halaman:
+book_page_number
+
+----------------------------------
+#Di awal chapter (berulang setiap chapter dalam 1 halaman) :
+chapter
+
+chapter no:
+echapno
+
+title chapter:
+englishchapter
+
+title in arabic:
+arabicchapter arabic
+
+intro chapter :
+arabic achapintro
+
+----------------------------------
+Isi hadith (berulang dalam 1 chapter) :
+
+#div content :
+actualHadithContainer (encapsulate in)
+
+narasi hadith:
+hadith_narrated
+
+translation:
+text_details
+
+Translate in indonesia (jika mode ke indonesia):
+indonesian_hadith_full
+
+urdu
+urdu_hadith_full
+
+#Grade :
+gradetable
+
+Status:
+english_grade
+
+reference (in table html):
+hadith_reference
+
+#arabic hadith (encapsulate):
+arabic_hadith_full arabic
+
+sanad top:
+arabic_sanad arabic
+
+content:
+arabic_text_details arabic
+
+sanad bottom:
+arabic_sanad arabic
+
+Problem in other language :
+1. perubahan bahasa dipicu javascript pas radio di click
+2. hanya translate saja yang berubah bahasanya

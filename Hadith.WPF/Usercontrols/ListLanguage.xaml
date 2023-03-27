@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Hadith.WPF.Usercontrols.ListLanguage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Background="#00232F"
+              d:DesignHeight="300" d:DesignWidth="170">
+    <DockPanel>
+        <DockPanel.Resources>
+            
+        </DockPanel.Resources>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <Rectangle Fill="White" Margin="10 5 10 5" ></Rectangle>
+            </DockPanel>
+            <ListView Grid.Column="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" BorderThickness="0" Name="ListData" Margin="0 0 0 0" >
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <!--<StackPanel/>
+                    If StackPanel was used, the memory consumed was over 2GB and dead slow.
+                    -->
+                        <VirtualizingStackPanel>
+                            <!--Memory footprint is only 200 mb-->
+                        </VirtualizingStackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Foreground="#00A3D9" Name="LangItem" TextWrapping="Wrap">
+                            <Run  Text="{Binding lang}">
+                            </Run>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+
+    </DockPanel>
+</UserControl>

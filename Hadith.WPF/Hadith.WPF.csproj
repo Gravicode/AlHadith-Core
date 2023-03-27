@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Hadith.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Speech" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\AdobeArabic-Regular.otf" />
+    <Resource Include="Resources\UthmanicHafs1Ver09.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\auto-speech-active.png" />
+    <Resource Include="Images\Icons\auto-speech-inactive.png" />
+    <Resource Include="Images\Icons\button-active.png" />
+    <Resource Include="Images\Icons\gesture-active.png" />
+    <Resource Include="Images\Icons\gesture-inactive.png" />
+    <Resource Include="Images\Icons\logo.png" />
+    <Resource Include="Images\Icons\ornament.png" />
+    <Resource Include="Images\Icons\play-active.png" />
+    <Resource Include="Images\Icons\play-inactive.png" />
+    <Resource Include="Images\Icons\stop-active.png" />
+    <Resource Include="Images\Icons\stop-inactive.png" />
+    <Resource Include="Images\Icons\voice-command-active.png" />
+    <Resource Include="Images\Icons\voice-command-inactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hadith.BLL\Hadith.BLL.csproj" />
+    <ProjectReference Include="..\HtmlToXamlConvert\HtmlToXamlConvert.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\font-resizer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\volume-slider.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TryVisualStudioProfessional.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Hadith.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\search-button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Icons\bookmark.png" />
+    <Resource Include="Images\Icons\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.Caching" Version="7.0.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.410601">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.117" />
+  </ItemGroup>
+</Project>

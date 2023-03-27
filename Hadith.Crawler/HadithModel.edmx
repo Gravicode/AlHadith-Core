@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HadithDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="HadithDBModelStoreContainer">
+          <EntitySet Name="Crawled" EntityType="HadithDBModel.Store.Crawled" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Hadith" EntityType="HadithDBModel.Store.Hadith" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="HadithChapter" EntityType="HadithDBModel.Store.HadithChapter" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="HadithContent" EntityType="HadithDBModel.Store.HadithContent" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="HadithIndex" EntityType="HadithDBModel.Store.HadithIndex" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="HadithPage" EntityType="HadithDBModel.Store.HadithPage" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="Crawled">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Url" Type="varchar(max)" />
+          <Property Name="Description" Type="ntext" />
+        </EntityType>
+        <EntityType Name="Hadith">
+          <Key>
+            <PropertyRef Name="HadithID" />
+          </Key>
+          <Property Name="HadithID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" MaxLength="350" />
+          <Property Name="Title" Type="varchar" MaxLength="350" />
+          <Property Name="About" Type="ntext" />
+          <Property Name="Arabic" Type="ntext" />
+        </EntityType>
+        <EntityType Name="HadithChapter">
+          <Key>
+            <PropertyRef Name="ChapterID" />
+          </Key>
+          <Property Name="ChapterID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ChapterNo" Type="int" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="TitleArabic" Type="ntext" />
+          <Property Name="Intro" Type="ntext" />
+          <Property Name="PageNo" Type="int" />
+          <Property Name="HadithID" Type="int" />
+          <Property Name="ChapterNoStr" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="HadithContent">
+          <Key>
+            <PropertyRef Name="ContentID" />
+          </Key>
+          <Property Name="ContentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="HadithID" Type="int" />
+          <Property Name="ChapterNo" Type="int" />
+          <Property Name="PageNo" Type="int" />
+          <Property Name="Narated" Type="varchar(max)" />
+          <Property Name="ContentEnglish" Type="varchar(max)" />
+          <Property Name="ContentIndonesia" Type="varchar(max)" />
+          <Property Name="ContentArabic" Type="ntext" />
+          <Property Name="Grade" Type="ntext" />
+          <Property Name="Reference" Type="varchar" MaxLength="350" />
+          <Property Name="SanadTop" Type="ntext" />
+          <Property Name="SanadBottom" Type="ntext" />
+        </EntityType>
+        <EntityType Name="HadithIndex">
+          <Key>
+            <PropertyRef Name="IndexID" />
+          </Key>
+          <Property Name="IndexID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="HadithID" Type="int" />
+          <Property Name="No" Type="int" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="ArabicName" Type="ntext" />
+          <Property Name="IndexFrom" Type="int" />
+          <Property Name="IndexTo" Type="int" />
+        </EntityType>
+        <EntityType Name="HadithPage">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="PageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="varchar(max)" />
+          <Property Name="TitleArabic" Type="ntext" />
+          <Property Name="PageNo" Type="int" />
+          <Property Name="HadithID" Type="int" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HadithDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HadithDBEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Crawleds" EntityType="HadithDBModel.Crawled" />
+          <EntitySet Name="Hadiths" EntityType="HadithDBModel.Hadith" />
+          <EntitySet Name="HadithChapters" EntityType="HadithDBModel.HadithChapter" />
+          <EntitySet Name="HadithContents" EntityType="HadithDBModel.HadithContent" />
+          <EntitySet Name="HadithIndexes" EntityType="HadithDBModel.HadithIndex" />
+          <EntitySet Name="HadithPages" EntityType="HadithDBModel.HadithPage" />
+        </EntityContainer>
+        <EntityType Name="Crawled">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Url" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Hadith">
+          <Key>
+            <PropertyRef Name="HadithID" />
+          </Key>
+          <Property Name="HadithID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="350" Unicode="false" FixedLength="false" />
+          <Property Name="Title" Type="String" MaxLength="350" Unicode="false" FixedLength="false" />
+          <Property Name="About" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Arabic" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="HadithChapter">
+          <Key>
+            <PropertyRef Name="ChapterID" />
+          </Key>
+          <Property Name="ChapterID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ChapterNo" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="TitleArabic" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Intro" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="PageNo" Type="Int32" />
+          <Property Name="HadithID" Type="Int32" />
+          <Property Name="ChapterNoStr" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="HadithContent">
+          <Key>
+            <PropertyRef Name="ContentID" />
+          </Key>
+          <Property Name="ContentID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="HadithID" Type="Int32" />
+          <Property Name="ChapterNo" Type="Int32" />
+          <Property Name="PageNo" Type="Int32" />
+          <Property Name="Narated" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ContentEnglish" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ContentIndonesia" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ContentArabic" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Grade" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Reference" Type="String" MaxLength="350" Unicode="false" FixedLength="false" />
+          <Property Name="SanadTop" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="SanadBottom" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="HadithIndex">
+          <Key>
+            <PropertyRef Name="IndexID" />
+          </Key>
+          <Property Name="IndexID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="HadithID" Type="Int32" />
+          <Property Name="No" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ArabicName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="IndexFrom" Type="Int32" />
+          <Property Name="IndexTo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="HadithPage">
+          <Key>
+            <PropertyRef Name="PageID" />
+          </Key>
+          <Property Name="PageID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="TitleArabic" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="PageNo" Type="Int32" />
+          <Property Name="HadithID" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HadithDBModelStoreContainer" CdmEntityContainer="HadithDBEntities">
+          <EntitySetMapping Name="Crawleds">
+            <EntityTypeMapping TypeName="HadithDBModel.Crawled">
+              <MappingFragment StoreEntitySet="Crawled">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hadiths">
+            <EntityTypeMapping TypeName="HadithDBModel.Hadith">
+              <MappingFragment StoreEntitySet="Hadith">
+                <ScalarProperty Name="HadithID" ColumnName="HadithID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="Arabic" ColumnName="Arabic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HadithChapters">
+            <EntityTypeMapping TypeName="HadithDBModel.HadithChapter">
+              <MappingFragment StoreEntitySet="HadithChapter">
+                <ScalarProperty Name="ChapterID" ColumnName="ChapterID" />
+                <ScalarProperty Name="ChapterNo" ColumnName="ChapterNo" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TitleArabic" ColumnName="TitleArabic" />
+                <ScalarProperty Name="Intro" ColumnName="Intro" />
+                <ScalarProperty Name="PageNo" ColumnName="PageNo" />
+                <ScalarProperty Name="HadithID" ColumnName="HadithID" />
+                <ScalarProperty Name="ChapterNoStr" ColumnName="ChapterNoStr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HadithContents">
+            <EntityTypeMapping TypeName="HadithDBModel.HadithContent">
+              <MappingFragment StoreEntitySet="HadithContent">
+                <ScalarProperty Name="ContentID" ColumnName="ContentID" />
+                <ScalarProperty Name="HadithID" ColumnName="HadithID" />
+                <ScalarProperty Name="ChapterNo" ColumnName="ChapterNo" />
+                <ScalarProperty Name="PageNo" ColumnName="PageNo" />
+                <ScalarProperty Name="Narated" ColumnName="Narated" />
+                <ScalarProperty Name="ContentEnglish" ColumnName="ContentEnglish" />
+                <ScalarProperty Name="ContentIndonesia" ColumnName="ContentIndonesia" />
+                <ScalarProperty Name="ContentArabic" ColumnName="ContentArabic" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="SanadTop" ColumnName="SanadTop" />
+                <ScalarProperty Name="SanadBottom" ColumnName="SanadBottom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HadithIndexes">
+            <EntityTypeMapping TypeName="HadithDBModel.HadithIndex">
+              <MappingFragment StoreEntitySet="HadithIndex">
+                <ScalarProperty Name="IndexID" ColumnName="IndexID" />
+                <ScalarProperty Name="HadithID" ColumnName="HadithID" />
+                <ScalarProperty Name="No" ColumnName="No" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ArabicName" ColumnName="ArabicName" />
+                <ScalarProperty Name="IndexFrom" ColumnName="IndexFrom" />
+                <ScalarProperty Name="IndexTo" ColumnName="IndexTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HadithPages">
+            <EntityTypeMapping TypeName="HadithDBModel.HadithPage">
+              <MappingFragment StoreEntitySet="HadithPage">
+                <ScalarProperty Name="PageID" ColumnName="PageID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TitleArabic" ColumnName="TitleArabic" />
+                <ScalarProperty Name="PageNo" ColumnName="PageNo" />
+                <ScalarProperty Name="HadithID" ColumnName="HadithID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
