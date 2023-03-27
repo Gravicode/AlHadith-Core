@@ -1038,6 +1038,8 @@ namespace Hadith.WPF
 
             if (speechSynthesizer != null)
                 speechSynthesizer.Dispose();
+
+            Environment.Exit(0);
             /*
             try
             {
