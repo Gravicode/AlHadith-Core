@@ -1,19 +1,18 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33027.239
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadith.Crawler", "Hadith.Crawler\Hadith.Crawler.csproj", "{4FE616C1-F1B0-49AD-9C69-EFEF28156966}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadith.Parser", "Hadith.Parser\Hadith.Parser.csproj", "{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadith.Crawler", "Hadith.Crawler\Hadith.Crawler.csproj", "{4FE616C1-F1B0-49AD-9C69-EFEF28156966}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadith.WPF", "Hadith.WPF\Hadith.WPF.csproj", "{84AA4306-3F9B-42E8-9471-C901E5245AFA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmlToXamlConvert", "HtmlToXamlConvert\HtmlToXamlConvert.csproj", "{F991A7FA-DFBC-48E1-A16F-8AF85E08D625}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadith.DAL", "Hadith.DAL\Hadith.DAL.csproj", "{747FF308-A4F7-47DE-A7BF-D2C76D21A36B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadith.DAL", "Hadith.DAL\Hadith.DAL.csproj", "{747FF308-A4F7-47DE-A7BF-D2C76D21A36B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadith.BLL", "Hadith.BLL\Hadith.BLL.csproj", "{488550BA-F9C1-4EF1-8403-2E30C1CB49E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadith.BLL", "Hadith.BLL\Hadith.BLL.csproj", "{488550BA-F9C1-4EF1-8403-2E30C1CB49E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadith.Parser", "Hadith.Parser\Hadith.Parser.csproj", "{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +24,6 @@ Global
 		{4FE616C1-F1B0-49AD-9C69-EFEF28156966}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FE616C1-F1B0-49AD-9C69-EFEF28156966}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FE616C1-F1B0-49AD-9C69-EFEF28156966}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{84AA4306-3F9B-42E8-9471-C901E5245AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{84AA4306-3F9B-42E8-9471-C901E5245AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84AA4306-3F9B-42E8-9471-C901E5245AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +40,10 @@ Global
 		{488550BA-F9C1-4EF1-8403-2E30C1CB49E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{488550BA-F9C1-4EF1-8403-2E30C1CB49E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{488550BA-F9C1-4EF1-8403-2E30C1CB49E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

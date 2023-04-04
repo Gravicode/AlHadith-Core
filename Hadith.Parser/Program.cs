@@ -17,18 +17,18 @@ namespace Hadith.Parser
         [STAThread]
         static void Main(string[] args)
         {
-            CopyHadith();
-           //GetSpecificContentWithWatin();
-            //CleanHTML();
-            //GetChapters();
-            //CleanUpIndex();
-            //CleanHTML();
-            //RepairReference();
-            //RepairOrder();
-            //GetSpecificContentWithWatin();
-            //GetSpecificContent();
-            //GetIndoContent();
-            //GetBulughContent();
+            //CopyHadith();
+            GetSpecificContentWithWatin();
+            CleanHTML();
+            GetChapters();
+            CleanUpIndex();
+            CleanHTML();
+            RepairReference();
+            RepairOrder();
+            GetSpecificContentWithWatin();
+            GetSpecificContent();
+            GetIndoContent();
+            GetBulughContent();
             //GetSpecialContent();
 
             /*
@@ -36,7 +36,7 @@ namespace Hadith.Parser
                 "";
             string fix =
     Regex.Replace(original, @"^\s*$\n", string.Empty, RegexOptions.Multiline).TrimEnd();
-             */ 
+             */
         }
 
         static void CopyHadith()
