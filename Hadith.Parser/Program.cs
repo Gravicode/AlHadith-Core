@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -17,18 +18,23 @@ namespace Hadith.Parser
         [STAThread]
         static void Main(string[] args)
         {
+            System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+            //getHadith();
+            //GetIndex();
+            //GetChapters();
+            GetContent();
             //CopyHadith();
-            GetSpecificContentWithWatin();
-            CleanHTML();
-            GetChapters();
-            CleanUpIndex();
-            CleanHTML();
-            RepairReference();
-            RepairOrder();
-            GetSpecificContentWithWatin();
-            GetSpecificContent();
-            GetIndoContent();
-            GetBulughContent();
+            //GetSpecificContentWithWatin();
+            //CleanHTML();
+            //GetChapters();
+            //CleanUpIndex();
+            //CleanHTML();
+            //RepairReference();
+            //RepairOrder();
+            //GetSpecificContentWithWatin();
+            //GetSpecificContent();
+            //GetIndoContent();
+            //GetBulughContent();
             //GetSpecialContent();
 
             /*
@@ -396,7 +402,7 @@ namespace Hadith.Parser
                     for (int j = 0; j < hadistIndex.Count; j++)
                     {
                         var selIndex = hadistIndex[j];
-                        var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                        var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                         try
                         {
@@ -630,7 +636,7 @@ namespace Hadith.Parser
                 for (int j = 0; j < hadistIndex.Count; j++)
                 {
                     var selIndex = hadistIndex[j];
-                    var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                     try
                     {
@@ -814,7 +820,7 @@ namespace Hadith.Parser
                 for (int j = 0; j < hadistIndex.Count; j++)
                 {
                     var selIndex = hadistIndex[j];
-                    var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                     try
                     {
@@ -978,7 +984,7 @@ namespace Hadith.Parser
                 for (int j = 0; j < hadistIndex.Count; j++)
                 {
                     var selIndex = hadistIndex[j];
-                    var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                     try
                     {
@@ -1143,7 +1149,7 @@ namespace Hadith.Parser
                 for (int j = 0; j < hadistIndex.Count; j++)
                 {
                     var selIndex = hadistIndex[j];
-                    var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                     try
                     {
@@ -1274,7 +1280,7 @@ namespace Hadith.Parser
                 var selHadith = hadist[i];
 
 
-                var selURL = string.Format("http://sunnah.com/{0}", selHadith.Name);
+                var selURL = string.Format("https://sunnah.com/{0}", selHadith.Name);
 
                 try
                 {
@@ -1412,7 +1418,7 @@ namespace Hadith.Parser
                 for (int j = 0; j < hadistIndex.Count; j++)
                 {
                     var selIndex = hadistIndex[j];
-                    var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                     try
                     {
@@ -1558,7 +1564,7 @@ namespace Hadith.Parser
                 for (int j = 0; j < hadistIndex.Count; j++)
                 {
                     var selIndex = hadistIndex[j];
-                    var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                     try
                     {
@@ -1699,7 +1705,7 @@ namespace Hadith.Parser
         {
             var Webget = new HtmlWeb();
 
-            var doc = Webget.Load("http://sunnah.com/muslim/1");
+            var doc = Webget.Load("https://sunnah.com/muslim/1");
             Console.WriteLine("start");
             foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div"))
             {
@@ -1740,7 +1746,7 @@ namespace Hadith.Parser
                 var selHadith = hadist[i];
 
 
-                var selURL = string.Format("http://sunnah.com/{0}", selHadith.Name);
+                var selURL = string.Format("https://sunnah.com/{0}", selHadith.Name);
 
                 try
                 {
@@ -1876,7 +1882,7 @@ namespace Hadith.Parser
                 for (int j = 0; j < hadistIndex.Count; j++)
                 {
                     var selIndex = hadistIndex[j];
-                    var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                     try
                     {
@@ -2010,7 +2016,7 @@ namespace Hadith.Parser
                 for (int j = 0; j < hadistIndex.Count; j++)
                 {
                     var selIndex = hadistIndex[j];
-                    var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                     try
                     {
@@ -2026,7 +2032,7 @@ namespace Hadith.Parser
                         //get title
                         foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div"))
                         {
-                            if (node.Attributes["class"]!=null && !string.IsNullOrEmpty(node.Attributes["class"].Value))
+                            if (node.Attributes["class"] != null && !string.IsNullOrEmpty(node.Attributes["class"].Value))
                             {
                                 switch (node.Attributes["class"].Value)
                                 {
@@ -2134,6 +2140,67 @@ namespace Hadith.Parser
                                         break;
                                     default: break;
                                 }
+                                if (node.Attributes["class"].Value.Contains("actualHadithContainer"))
+                                {
+                                    HadithContent selContent = new HadithContent();
+                                    selContent.HadithID = selHadith.HadithID;
+                                    selContent.PageNo = selPage.PageNo;
+                                    if (selChapter != null)
+                                    {
+                                        selContent.ChapterNo = selChapter.ChapterNo;
+                                    }
+                                    {
+                                        var subnode = node.SelectSingleNode(".//div[@class='hadith_narrated']");
+                                        if (subnode != null)
+                                        {
+                                            selContent.Narated = subnode.InnerHtml;
+                                        }
+                                    }
+                                    {
+                                        var subnode = node.SelectSingleNode(".//div[@class='text_details']");
+                                        if (subnode != null)
+                                        {
+                                            selContent.ContentEnglish = subnode.InnerHtml;
+                                        }
+                                    }
+                                    {
+                                        var subnode = node.SelectSingleNode(".//table[@class='gradetable']");
+                                        if (subnode != null)
+                                        {
+                                            selContent.Grade = subnode.InnerText;
+                                        }
+                                    }
+                                    {
+                                        var subnode = node.SelectSingleNode(".//table[@class='hadith_reference']");
+                                        if (subnode != null)
+                                        {
+                                            selContent.Reference = subnode.InnerHtml;
+                                        }
+                                    }
+                                    {
+                                        var subnode = node.SelectNodes(".//span[@class='arabic_sanad']");
+                                        if (subnode != null)
+                                        {
+                                            selContent.SanadTop = subnode[0].InnerHtml;
+                                            selContent.SanadBottom = string.Empty;// subnode[1].InnerHtml;
+                                        }
+
+                                    }
+                                    {
+                                        var subnode = node.SelectSingleNode(".//span[@class='arabic_text_details']");
+                                        if (subnode != null)
+                                        {
+                                            selContent.ContentArabic = subnode.InnerHtml;
+                                        }
+                                    }
+                                    ctx.HadithContents.Add(selContent);
+                                    ContentCounter++;
+                                    if (ContentCounter > 100)
+                                    {
+                                        ctx.SaveChanges();
+                                        ContentCounter = 0;
+                                    }
+                                }
                             }
 
 
@@ -2167,7 +2234,7 @@ namespace Hadith.Parser
                 for (int j = 0; j < hadistIndex.Count; j++)
                 {
                     var selIndex = hadistIndex[j];
-                    var selURL = string.Format("http://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, selIndex.No);
 
                     try
                     {
@@ -2303,13 +2370,13 @@ namespace Hadith.Parser
                 {
                     var Webget = new HtmlWeb();
                    
-                    var doc = Webget.Load(string.Format("http://sunnah.com/{0}", item.Name));
-                    foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@class='colindextitle']//div[@class='arabic']"))
+                    var doc = Webget.Load(string.Format("https://sunnah.com/{0}", item.Name));
+                    foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@class='colindextitle incomplete']//div[@class='arabic']"))
                     {
                         item.Arabic = node.InnerHtml;
                         continue;
                     }
-                    var nodes =  doc.DocumentNode.SelectNodes("//div[@class='book_titles']//div[contains(@class,'book_title')]");
+                    var nodes =  doc.DocumentNode.SelectNodes("//div[@class='book_titles titles']//div[contains(@class,'book_title title')]");
                     foreach (HtmlNode node in nodes)
                     {
                         HadithIndex newNode = new HadithIndex();
@@ -2317,11 +2384,11 @@ namespace Hadith.Parser
                         try
                         {
                             {
-                                var subnode = node.SelectSingleNode(".//div[@class='book_number']");
+                                var subnode = node.SelectSingleNode(".//div[@class='book_number title_number']");
                                 newNode.No = Convert.ToInt32(subnode.InnerText);
                             }
                             {
-                                var subnode = node.SelectSingleNode(".//div[@class='english_book_name']");
+                                var subnode = node.SelectSingleNode(".//div[@class='english english_book_name']");
                                 newNode.Name = subnode.InnerText;
                             }
                             {
@@ -2329,9 +2396,11 @@ namespace Hadith.Parser
                                 newNode.ArabicName = subnode.InnerText;
                             }
                             {
-                                var subnode = node.SelectNodes(".//div[@class='book_range_from']");
-                                newNode.IndexFrom = Convert.ToInt32(subnode[0].InnerText);
-                                newNode.IndexTo = Convert.ToInt32(subnode[1].InnerText);
+                                var subnode = node.SelectNodes(".//div[@class='book_range']");
+                                var rangestr = subnode.FirstOrDefault().InnerText;
+
+                                newNode.IndexFrom = Convert.ToInt32(Regex.Split(rangestr,"to")[0].Trim());
+                                newNode.IndexTo = Convert.ToInt32(Regex.Split(rangestr, "to")[1].Trim());
                             }
                         }
                         catch (Exception ex)
@@ -2354,18 +2423,20 @@ namespace Hadith.Parser
 
         static void getHadith()
         {
+            
             HadithDBEntities ctx = new HadithDBEntities();
-            var perowih = new string[] { "bukhari", "muslim", "nasai", "abudawud", "tirmidhi", "ibnmajah", "malik", "nawawi40", "riyadussaliheen", "adab", "qudsi40", "shamail", "bulugh" };
+            var perowih = new string[] { "bukhari", "muslim", "nasai", "abudawud", "tirmidhi", "ibnmajah", "malik",  "ahmad", "darimi",  "forty", "nawawi40", "riyadussalihin", "mishkat", "adab", "qudsi40", "shamail", "bulugh", "hisn" };
             foreach (var item in perowih)
             {
                 Hadith newNode = new Hadith();
                 newNode.Name = item;
-
+         
                 try
                 {
 
                     var Webget = new HtmlWeb();
-                    var doc = Webget.Load(string.Format("http://sunnah.com/{0}/about", item));
+                    
+                    var doc = Webget.Load(string.Format("https://sunnah.com/{0}/about", item));
                     foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@class='abouttitle']"))
                     {
                         newNode.Title = node.InnerHtml;
@@ -2376,9 +2447,9 @@ namespace Hadith.Parser
                     }
 
                 }
-                catch
+                catch(Exception ex)
                 {
-
+                    Console.WriteLine(ex);
 
                 }
                 ctx.Hadiths.Add(newNode);
