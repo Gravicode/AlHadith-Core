@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadith.BLL", "Hadith.BLL\Ha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadith.Parser", "Hadith.Parser\Hadith.Parser.csproj", "{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadith.Migrator", "Hadith.Migrator\Hadith.Migrator.csproj", "{983BFD0F-D9AD-4353-8C36-14FD885BC5E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0E16958-6247-4BD3-8BDD-DAF9B61265AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{983BFD0F-D9AD-4353-8C36-14FD885BC5E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{983BFD0F-D9AD-4353-8C36-14FD885BC5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{983BFD0F-D9AD-4353-8C36-14FD885BC5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{983BFD0F-D9AD-4353-8C36-14FD885BC5E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

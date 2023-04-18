@@ -4,20 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="HadithDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="HadithDBModelStoreContainer">
-          <EntitySet Name="Crawled" EntityType="HadithDBModel.Store.Crawled" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Hadith" EntityType="HadithDBModel.Store.Hadith" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HadithChapter" EntityType="HadithDBModel.Store.HadithChapter" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HadithContent" EntityType="HadithDBModel.Store.HadithContent" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HadithIndex" EntityType="HadithDBModel.Store.HadithIndex" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HadithPage" EntityType="HadithDBModel.Store.HadithPage" store:Type="Tables" Schema="dbo" />
-        </EntityContainer>
+    <Schema Namespace="HadithDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Crawled">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Url" Type="varchar(max)" />
           <Property Name="Description" Type="ntext" />
         </EntityType>
@@ -25,7 +17,7 @@
           <Key>
             <PropertyRef Name="HadithID" />
           </Key>
-          <Property Name="HadithID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="HadithID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="350" />
           <Property Name="Title" Type="varchar" MaxLength="350" />
           <Property Name="About" Type="ntext" />
@@ -35,7 +27,7 @@
           <Key>
             <PropertyRef Name="ChapterID" />
           </Key>
-          <Property Name="ChapterID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ChapterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ChapterNo" Type="int" />
           <Property Name="Title" Type="varchar(max)" />
           <Property Name="TitleArabic" Type="ntext" />
@@ -48,7 +40,7 @@
           <Key>
             <PropertyRef Name="ContentID" />
           </Key>
-          <Property Name="ContentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ContentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="HadithID" Type="int" />
           <Property Name="ChapterNo" Type="int" />
           <Property Name="PageNo" Type="int" />
@@ -58,7 +50,7 @@
           <Property Name="ContentIndonesia" Type="varchar(max)" />
           <Property Name="ContentArabic" Type="ntext" />
           <Property Name="Grade" Type="ntext" />
-          <Property Name="Reference" Type="varchar" MaxLength="350" />
+          <Property Name="Reference" Type="varchar(max)" />
           <Property Name="SanadTop" Type="ntext" />
           <Property Name="SanadBottom" Type="ntext" />
           <Property Name="HadithOrder" Type="int" />
@@ -71,7 +63,7 @@
           <Key>
             <PropertyRef Name="IndexID" />
           </Key>
-          <Property Name="IndexID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="IndexID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="HadithID" Type="int" />
           <Property Name="No" Type="int" />
           <Property Name="Name" Type="varchar(max)" />
@@ -83,12 +75,20 @@
           <Key>
             <PropertyRef Name="PageID" />
           </Key>
-          <Property Name="PageID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="varchar(max)" />
           <Property Name="TitleArabic" Type="ntext" />
           <Property Name="PageNo" Type="int" />
           <Property Name="HadithID" Type="int" />
         </EntityType>
+        <EntityContainer Name="HadithDBModelStoreContainer">
+          <EntitySet Name="Crawled" EntityType="Self.Crawled" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hadith" EntityType="Self.Hadith" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HadithChapter" EntityType="Self.HadithChapter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HadithContent" EntityType="Self.HadithContent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HadithIndex" EntityType="Self.HadithIndex" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HadithPage" EntityType="Self.HadithPage" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -97,9 +97,9 @@
           <EntitySet Name="Crawleds" EntityType="HadithDBModel.Crawled" />
           <EntitySet Name="Hadiths" EntityType="HadithDBModel.Hadith" />
           <EntitySet Name="HadithChapters" EntityType="HadithDBModel.HadithChapter" />
-          <EntitySet Name="HadithContents" EntityType="HadithDBModel.HadithContent" />
           <EntitySet Name="HadithIndexes" EntityType="HadithDBModel.HadithIndex" />
           <EntitySet Name="HadithPages" EntityType="HadithDBModel.HadithPage" />
+          <EntitySet Name="HadithContents" EntityType="HadithDBModel.HadithContent" />
         </EntityContainer>
         <EntityType Name="Crawled">
           <Key>
@@ -132,29 +132,6 @@
           <Property Type="Int32" Name="HadithID" />
           <Property Type="String" Name="ChapterNoStr" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="HadithContent">
-          <Key>
-            <PropertyRef Name="ContentID" />
-          </Key>
-          <Property Type="Int32" Name="ContentID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="HadithID" />
-          <Property Type="Int32" Name="ChapterNo" />
-          <Property Type="Int32" Name="PageNo" />
-          <Property Type="String" Name="Narated" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ContentEnglish" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ContentUrdu" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ContentIndonesia" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ContentArabic" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Grade" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Reference" MaxLength="350" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="SanadTop" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SanadBottom" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="HadithOrder" />
-          <Property Type="String" Name="BookRef" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="USCRef" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="OtherRef" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="UrlRef" MaxLength="Max" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="HadithIndex">
           <Key>
             <PropertyRef Name="IndexID" />
@@ -176,6 +153,29 @@
           <Property Type="String" Name="TitleArabic" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="PageNo" />
           <Property Type="Int32" Name="HadithID" />
+        </EntityType>
+        <EntityType Name="HadithContent">
+          <Key>
+            <PropertyRef Name="ContentID" />
+          </Key>
+          <Property Name="ContentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HadithID" Type="Int32" />
+          <Property Name="ChapterNo" Type="Int32" />
+          <Property Name="PageNo" Type="Int32" />
+          <Property Name="Narated" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ContentEnglish" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ContentUrdu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContentIndonesia" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ContentArabic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Grade" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Reference" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SanadTop" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SanadBottom" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HadithOrder" Type="Int32" />
+          <Property Name="BookRef" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="USCRef" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="OtherRef" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="UrlRef" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -217,30 +217,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HadithContents">
-            <EntityTypeMapping TypeName="HadithDBModel.HadithContent">
-              <MappingFragment StoreEntitySet="HadithContent">
-                <ScalarProperty Name="UrlRef" ColumnName="UrlRef" />
-                <ScalarProperty Name="OtherRef" ColumnName="OtherRef" />
-                <ScalarProperty Name="USCRef" ColumnName="USCRef" />
-                <ScalarProperty Name="BookRef" ColumnName="BookRef" />
-                <ScalarProperty Name="HadithOrder" ColumnName="HadithOrder" />
-                <ScalarProperty Name="SanadBottom" ColumnName="SanadBottom" />
-                <ScalarProperty Name="SanadTop" ColumnName="SanadTop" />
-                <ScalarProperty Name="Reference" ColumnName="Reference" />
-                <ScalarProperty Name="Grade" ColumnName="Grade" />
-                <ScalarProperty Name="ContentArabic" ColumnName="ContentArabic" />
-                <ScalarProperty Name="ContentIndonesia" ColumnName="ContentIndonesia" />
-                <ScalarProperty Name="ContentUrdu" ColumnName="ContentUrdu" />
-                <ScalarProperty Name="ContentEnglish" ColumnName="ContentEnglish" />
-                <ScalarProperty Name="Narated" ColumnName="Narated" />
-                <ScalarProperty Name="PageNo" ColumnName="PageNo" />
-                <ScalarProperty Name="ChapterNo" ColumnName="ChapterNo" />
-                <ScalarProperty Name="HadithID" ColumnName="HadithID" />
-                <ScalarProperty Name="ContentID" ColumnName="ContentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HadithIndexes">
             <EntityTypeMapping TypeName="HadithDBModel.HadithIndex">
               <MappingFragment StoreEntitySet="HadithIndex">
@@ -265,6 +241,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="HadithContents">
+            <EntityTypeMapping TypeName="HadithDBModel.HadithContent">
+              <MappingFragment StoreEntitySet="HadithContent">
+                <ScalarProperty Name="UrlRef" ColumnName="UrlRef" />
+                <ScalarProperty Name="OtherRef" ColumnName="OtherRef" />
+                <ScalarProperty Name="USCRef" ColumnName="USCRef" />
+                <ScalarProperty Name="BookRef" ColumnName="BookRef" />
+                <ScalarProperty Name="HadithOrder" ColumnName="HadithOrder" />
+                <ScalarProperty Name="SanadBottom" ColumnName="SanadBottom" />
+                <ScalarProperty Name="SanadTop" ColumnName="SanadTop" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="ContentArabic" ColumnName="ContentArabic" />
+                <ScalarProperty Name="ContentIndonesia" ColumnName="ContentIndonesia" />
+                <ScalarProperty Name="ContentUrdu" ColumnName="ContentUrdu" />
+                <ScalarProperty Name="ContentEnglish" ColumnName="ContentEnglish" />
+                <ScalarProperty Name="Narated" ColumnName="Narated" />
+                <ScalarProperty Name="PageNo" ColumnName="PageNo" />
+                <ScalarProperty Name="ChapterNo" ColumnName="ChapterNo" />
+                <ScalarProperty Name="HadithID" ColumnName="HadithID" />
+                <ScalarProperty Name="ContentID" ColumnName="ContentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -282,6 +282,7 @@
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

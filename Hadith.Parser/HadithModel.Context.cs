@@ -28,8 +28,8 @@ namespace Hadith.Parser
         public DbSet<Crawled> Crawleds { get; set; }
         public DbSet<Hadith> Hadiths { get; set; }
         public DbSet<HadithChapter> HadithChapters { get; set; }
-        public DbSet<HadithContent> HadithContents { get; set; }
         public DbSet<HadithIndex> HadithIndexes { get; set; }
         public DbSet<HadithPage> HadithPages { get; set; }
+        public DbSet<HadithContent> HadithContents { get; set; }
     }
 }
