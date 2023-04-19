@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using WatiN.Core;
 using static System.Net.Mime.MediaTypeNames;
@@ -25,9 +26,14 @@ namespace Hadith.Parser
             System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
             //getHadith();
             //GetIndex();
+            //GetIndex(22); 
+            //GetWaliullahContent();
+            //GetContentNawawi();
             //GetChapters();
             //GetChaptersHisn();
             //GetHisnContent();
+            //GetContent(22);
+            GetContentMishkat();
             //GetContent();
             //CopyHadith();
             //GetSpecificContentWithWatin();
@@ -49,7 +55,7 @@ namespace Hadith.Parser
             string fix =
     Regex.Replace(original, @"^\s*$\n", string.Empty, RegexOptions.Multiline).TrimEnd();
              */
-           
+
         }
 
         
@@ -2012,7 +2018,7 @@ namespace Hadith.Parser
 
             HadithDBEntities ctx = new HadithDBEntities();
             var hadist = (from c in ctx.Hadiths
-                          where c.HadithID == 18
+                      
                           select c).ToList();
 
             for (int i = 0; i < hadist.Count; i++)
@@ -2225,6 +2231,664 @@ namespace Hadith.Parser
                 }
             }
         }
+        static void GetContentMishkat()
+        {
+            int HadithId = 22;
+            HadithDBEntities ctx = new HadithDBEntities();
+            var hadist = (from c in ctx.Hadiths
+                          where c.HadithID == HadithId
+                          select c).ToList();
+
+            for (int i = 0; i < hadist.Count; i++)
+            {
+                var selHadith = hadist[i];
+                var hadistIndex = (from c in ctx.HadithIndexes
+                                   where c.HadithID == selHadith.HadithID
+                                   orderby c.No
+                                   select c).ToList();
+                int OrderHadith = 0;
+                for (int j = 0; j < hadistIndex.Count; j++)
+                {
+                    OrderHadith = 1;
+                    var selIndex = hadistIndex[j];
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, (selIndex.No == 0 ? "introduction" : selIndex.No.ToString()));
+
+                    try
+                    {
+                        var Webget = new HtmlWeb();
+
+                        var doc = Webget.Load(selURL);
+                        HadithChapter selChapter = null;
+                        int ContentCounter = 0;
+
+                        HadithPage selPage = new HadithPage();
+                        selPage.PageNo = selIndex.No;
+                        selPage.HadithID = selHadith.HadithID;
+                        var hadithnode = doc.DocumentNode.SelectSingleNode(".//div[@class='AllHadith']");
+                        int ChapterCounter = 1;
+                        //get title
+                        foreach (HtmlNode node in hadithnode.SelectNodes("//div"))
+                        {
+                            if (node.Attributes["class"] != null && !string.IsNullOrEmpty(node.Attributes["class"].Value))
+                            {
+                                switch (node.Attributes["class"].Value)
+                                {
+                                    case "book_page_english_name":
+                                        selPage.Title = node.InnerHtml;
+                                        break;
+                                    case "book_page_arabic_name arabic":
+                                        selPage.TitleArabic = node.InnerHtml;
+                                        ctx.HadithPages.Add(selPage);
+                                        break;
+                                    case "chapter":
+                                        selChapter = new HadithChapter();
+                                        selChapter.HadithID = selHadith.HadithID;
+                                        selChapter.PageNo = selPage.PageNo;
+                                        //iterate every chapter
+                                        var chapterNode = node;
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='echapno']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.ChapterNo = ChapterCounter++; //Convert.ToInt32(subnode.InnerText.Replace("(", "").Replace(")", ""));
+                                            }
+                                        }
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='englishchapter']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.Title = subnode.InnerText;
+                                            }
+                                        }
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='arabicchapter arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.TitleArabic = subnode.InnerText;
+                                            }
+                                        }
+                                        ctx.HadithChapters.Add(selChapter);
+                                        break;
+                                    case "arabic achapintro":
+                                        {
+                                            selChapter.Intro = node.InnerText;
+                                            ctx.SaveChanges();
+                                        }
+                                        break;
+                                    case "actualHadithContainer hadith_container_mishkat":
+                                        HadithContent selContent = new HadithContent();
+                                        selContent.HadithID = selHadith.HadithID;
+                                        selContent.PageNo = selPage.PageNo;
+                                        selContent.HadithOrder = OrderHadith++;
+                                        if (selChapter != null)
+                                        {
+                                            selContent.ChapterNo = selChapter.ChapterNo;
+                                        }
+                                        else
+                                        {
+                                            selContent.ChapterNo = -1;
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//div[@class='hadith_narrated']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Narated = subnode.InnerHtml;
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//div[@class='text_details']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.ContentEnglish = subnode.InnerHtml;
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//table[@class='gradetable']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Grade = subnode.InnerText;
+                                                selContent.Grade = Regex.Replace(selContent.Grade, @"<[^>]+>|&nbsp;", "").Trim();
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//table[@class='hadith_reference']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Reference = subnode.InnerHtml;
+                                            }
+                                            if (!string.IsNullOrEmpty(selContent.Reference))
+                                            {
+                                                HtmlDocument doc1 = new HtmlDocument();
+                                                doc1.LoadHtml(selContent.Reference);
+                                                int counter = 0;
+
+                                                var nodes1 = doc1.DocumentNode.SelectNodes("//td");
+                                                if (nodes1 != null)
+                                                {
+                                                    List<string> RefArray = new List<string>();
+                                                    foreach (HtmlNode node1 in nodes1)
+                                                    {
+                                                        counter++;
+                                                        string RefContent = node1.InnerText;
+                                                        Console.WriteLine(counter + " - " + RefContent);
+                                                        if (counter % 2 == 0)
+                                                        {
+                                                            RefArray.Add(RefContent);
+                                                        }
+                                                    }
+                                                    if (RefArray.Count > 0)
+                                                        selContent.Reference = Regex.Replace(RefArray[0], @"<[^>]+>|&nbsp;", "").Trim();
+
+                                                    if (RefArray.Count > 1)
+                                                        selContent.BookRef = Regex.Replace(RefArray[1], @"<[^>]+>|&nbsp;", "").Trim();
+
+                                                    if (RefArray.Count > 2)
+                                                        selContent.USCRef = Regex.Replace(RefArray[2], @"<[^>]+>|&nbsp;", "").Trim();
+                                                }
+
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectNodes(".//span[@class='arabic_sanad arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.SanadTop = subnode[0].InnerHtml;
+                                                if (subnode.Count > 1)
+                                                    selContent.SanadBottom = subnode[1].InnerHtml;
+                                            }
+
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//span[@class='arabic_text_details arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.ContentArabic = subnode.InnerHtml;
+                                            }
+                                        }
+                                        ctx.HadithContents.Add(selContent);
+                                        ContentCounter++;
+                                        if (ContentCounter > 100)
+                                        {
+                                            ctx.SaveChanges();
+                                            ContentCounter = 0;
+                                        }
+                                        break;
+                                    default: break;
+                                }
+                             
+                            }
+
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    ctx.SaveChanges();
+                }
+            }
+        }
+        static void GetContent(int HadithId)
+        {
+
+            HadithDBEntities ctx = new HadithDBEntities();
+            var hadist = (from c in ctx.Hadiths
+                          where c.HadithID == HadithId
+                          select c).ToList();
+
+            for (int i = 0; i < hadist.Count; i++)
+            {
+                var selHadith = hadist[i];
+                var hadistIndex = (from c in ctx.HadithIndexes
+                                   where c.HadithID == selHadith.HadithID
+                                   orderby c.No
+                                   select c).ToList();
+                int OrderHadith = 0;
+                for (int j = 0; j < hadistIndex.Count; j++)
+                {
+                    OrderHadith = 1;
+                    var selIndex = hadistIndex[j];
+                    var selURL = string.Format("https://sunnah.com/{0}/{1}", selHadith.Name, (selIndex.No==0? "introduction" : selIndex.No.ToString()));
+
+                    try
+                    {
+                        var Webget = new HtmlWeb();
+
+                        var doc = Webget.Load(selURL);
+                        HadithChapter selChapter = null;
+                        int ContentCounter = 0;
+
+                        HadithPage selPage = new HadithPage();
+                        selPage.PageNo = selIndex.No;
+                        selPage.HadithID = selHadith.HadithID;
+                        
+                        //get title
+                        foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div"))
+                        {
+                            if (node.Attributes["class"] != null && !string.IsNullOrEmpty(node.Attributes["class"].Value))
+                            {
+                                switch (node.Attributes["class"].Value)
+                                {
+                                    case "book_page_english_name":
+                                        selPage.Title = node.InnerHtml;
+                                        break;
+                                    case "book_page_arabic_name arabic":
+                                        selPage.TitleArabic = node.InnerHtml;
+                                        ctx.HadithPages.Add(selPage);
+                                        break;
+                                    case "chapter":
+                                        selChapter = new HadithChapter();
+                                        selChapter.HadithID = selHadith.HadithID;
+                                        selChapter.PageNo = selPage.PageNo;
+                                        //iterate every chapter
+                                        var chapterNode = node;
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='echapno']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.ChapterNo = Convert.ToInt32(subnode.InnerText.Replace("(", "").Replace(")", ""));
+                                            }
+                                        }
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='englishchapter']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.Title = subnode.InnerText;
+                                            }
+                                        }
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='arabicchapter arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.TitleArabic = subnode.InnerText;
+                                            }
+                                        }
+                                        ctx.HadithChapters.Add(selChapter);
+                                        break;
+                                    case "arabic achapintro":
+                                        {
+                                            selChapter.Intro = node.InnerText;
+                                            ctx.SaveChanges();
+                                        }
+                                        break;
+                                    case "actualHadithContainer hadith_container_mishkat":
+                                        HadithContent selContent = new HadithContent();
+                                        selContent.HadithID = selHadith.HadithID;
+                                        selContent.PageNo = selPage.PageNo;
+                                        selContent.HadithOrder = OrderHadith++;
+                                        if (selChapter != null)
+                                        {
+                                            selContent.ChapterNo = selChapter.ChapterNo;
+                                        }
+                                        else
+                                        {
+                                            selContent.ChapterNo = -1;
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//div[@class='hadith_narrated']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Narated = subnode.InnerHtml;
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//div[@class='text_details']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.ContentEnglish = subnode.InnerHtml;
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//table[@class='gradetable']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Grade = subnode.InnerText;
+                                                selContent.Grade = Regex.Replace(selContent.Grade, @"<[^>]+>|&nbsp;", "").Trim();
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//table[@class='hadith_reference']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Reference = subnode.InnerHtml;
+                                            }
+                                            if (!string.IsNullOrEmpty(selContent.Reference))
+                                            {
+                                                HtmlDocument doc1 = new HtmlDocument();
+                                                doc1.LoadHtml(selContent.Reference);
+                                                int counter = 0;
+
+                                                var nodes1 = doc1.DocumentNode.SelectNodes("//td");
+                                                if (nodes1 != null)
+                                                {
+                                                    List<string> RefArray = new List<string>();
+                                                    foreach (HtmlNode node1 in nodes1)
+                                                    {
+                                                        counter++;
+                                                        string RefContent = node1.InnerText;
+                                                        Console.WriteLine(counter + " - " + RefContent);
+                                                        if (counter % 2 == 0)
+                                                        {
+                                                            RefArray.Add(RefContent);
+                                                        }
+                                                    }
+                                                    if (RefArray.Count > 0)
+                                                        selContent.Reference = Regex.Replace(RefArray[0], @"<[^>]+>|&nbsp;", "").Trim();
+                                                       
+                                                    if (RefArray.Count > 1)
+                                                        selContent.BookRef = Regex.Replace(RefArray[1], @"<[^>]+>|&nbsp;", "").Trim();
+                                                  
+                                                    if (RefArray.Count > 2)
+                                                        selContent.USCRef = Regex.Replace(RefArray[2], @"<[^>]+>|&nbsp;", "").Trim();
+                                                }
+
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectNodes(".//span[@class='arabic_sanad arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.SanadTop = subnode[0].InnerHtml;
+                                                if(subnode.Count>1)
+                                                    selContent.SanadBottom = subnode[1].InnerHtml;
+                                            }
+
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//span[@class='arabic_text_details arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.ContentArabic = subnode.InnerHtml;
+                                            }
+                                        }
+                                        ctx.HadithContents.Add(selContent);
+                                        ContentCounter++;
+                                        if (ContentCounter > 100)
+                                        {
+                                            ctx.SaveChanges();
+                                            ContentCounter = 0;
+                                        }
+                                        break;
+                                    default: break;
+                                }
+                                //if (node.Attributes["class"].Value.Contains("actualHadithContainer"))
+                                //{
+                                //    HadithContent selContent = new HadithContent();
+                                //    selContent.HadithID = selHadith.HadithID;
+                                //    selContent.PageNo = selPage.PageNo;
+                                //    if (selChapter != null)
+                                //    {
+                                //        selContent.ChapterNo = selChapter.ChapterNo;
+                                //    }
+                                //    {
+                                //        var subnode = node.SelectSingleNode(".//div[@class='hadith_narrated']");
+                                //        if (subnode != null)
+                                //        {
+                                //            selContent.Narated = subnode.InnerHtml;
+                                //        }
+                                //    }
+                                //    {
+                                //        var subnode = node.SelectSingleNode(".//div[@class='text_details']");
+                                //        if (subnode != null)
+                                //        {
+                                //            selContent.ContentEnglish = subnode.InnerHtml;
+                                //        }
+                                //    }
+                                //    {
+                                //        var subnode = node.SelectSingleNode(".//table[@class='gradetable']");
+                                //        if (subnode != null)
+                                //        {
+                                //            selContent.Grade = subnode.InnerText;
+                                //        }
+                                //    }
+                                //    {
+                                //        var subnode = node.SelectSingleNode(".//table[@class='hadith_reference']");
+                                //        if (subnode != null)
+                                //        {
+                                //            selContent.Reference = subnode.InnerHtml;
+                                //        }
+                                //    }
+                                //    {
+                                //        var subnode = node.SelectNodes(".//span[@class='arabic_sanad']");
+                                //        if (subnode != null)
+                                //        {
+                                //            selContent.SanadTop = subnode[0].InnerHtml;
+                                //            selContent.SanadBottom = string.Empty;// subnode[1].InnerHtml;
+                                //        }
+
+                                //    }
+                                //    {
+                                //        var subnode = node.SelectSingleNode(".//span[@class='arabic_text_details']");
+                                //        if (subnode != null)
+                                //        {
+                                //            selContent.ContentArabic = subnode.InnerHtml;
+                                //        }
+                                //    }
+                                //    ctx.HadithContents.Add(selContent);
+                                //    ContentCounter++;
+                                //    if (ContentCounter > 100)
+                                //    {
+                                //        ctx.SaveChanges();
+                                //        ContentCounter = 0;
+                                //    }
+                                //}
+                            }
+
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    ctx.SaveChanges();
+                }
+            }
+        }
+        static void GetContentNawawi()
+        {
+            int HadithId = 20;
+            HadithDBEntities ctx = new HadithDBEntities();
+            var hadist = (from c in ctx.Hadiths
+                          where c.HadithID == HadithId
+                          select c).ToList();
+
+            for (int i = 0; i < hadist.Count; i++)
+            {
+                var selHadith = hadist[i];
+                var hadistIndex = (from c in ctx.HadithIndexes
+                                   where c.HadithID == selHadith.HadithID
+                                   orderby c.No
+                                   select c).ToList();
+                int OrderHadith = 0;
+                for (int j = 0; j < hadistIndex.Count; j++)
+                {
+                    OrderHadith = 1;
+                    var selIndex = hadistIndex[j];
+                    var selURL = string.Format("https://sunnah.com/{0}", selHadith.Name);
+
+                    try
+                    {
+                        var Webget = new HtmlWeb();
+
+                        var doc = Webget.Load(selURL);
+                        HadithChapter selChapter = null;
+                        int ContentCounter = 0;
+
+                        HadithPage selPage = new HadithPage();
+                        selPage.PageNo = selIndex.No;
+                        selPage.HadithID = selHadith.HadithID;
+
+                        //get title
+                        foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div"))
+                        {
+                            if (node.Attributes["class"] != null && !string.IsNullOrEmpty(node.Attributes["class"].Value))
+                            {
+                                switch (node.Attributes["class"].Value)
+                                {
+                                    case "book_page_english_name":
+                                        selPage.Title = node.InnerHtml;
+                                        break;
+                                    case "book_page_arabic_name arabic":
+                                        selPage.TitleArabic = node.InnerHtml;
+                                        ctx.HadithPages.Add(selPage);
+                                        break;
+                                    case "chapter":
+                                        selChapter = new HadithChapter();
+                                        selChapter.HadithID = selHadith.HadithID;
+                                        selChapter.PageNo = selPage.PageNo;
+                                        //iterate every chapter
+                                        var chapterNode = node;
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='echapno']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.ChapterNo = Convert.ToInt32(subnode.InnerText.Replace("(", "").Replace(")", ""));
+                                            }
+                                        }
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='englishchapter']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.Title = subnode.InnerText;
+                                            }
+                                        }
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='arabicchapter arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.TitleArabic = subnode.InnerText;
+                                            }
+                                        }
+                                        ctx.HadithChapters.Add(selChapter);
+                                        break;
+                                    case "arabic achapintro":
+                                        {
+                                            selChapter.Intro = node.InnerText;
+                                            ctx.SaveChanges();
+                                        }
+                                        break;
+                                    case "actualHadithContainer hadith_container_forty":
+                                        HadithContent selContent = new HadithContent();
+                                        selContent.HadithID = selHadith.HadithID;
+                                        selContent.PageNo = selPage.PageNo;
+                                        selContent.HadithOrder = OrderHadith++;
+                                        if (selChapter != null)
+                                        {
+                                            selContent.ChapterNo = selChapter.ChapterNo;
+                                        }
+                                        else
+                                        {
+                                            selContent.ChapterNo = -1;
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//div[@class='hadith_narrated']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Narated = subnode.InnerHtml;
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//div[@class='text_details']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.ContentEnglish = subnode.InnerHtml;
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//table[@class='gradetable']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Grade = subnode.InnerText;
+                                                selContent.Grade = Regex.Replace(selContent.Grade, @"<[^>]+>|&nbsp;", "").Trim();
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//table[@class='hadith_reference']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Reference = subnode.InnerHtml;
+                                            }
+                                            if (!string.IsNullOrEmpty(selContent.Reference))
+                                            {
+                                                HtmlDocument doc1 = new HtmlDocument();
+                                                doc1.LoadHtml(selContent.Reference);
+                                                int counter = 0;
+
+                                                var nodes1 = doc1.DocumentNode.SelectNodes("//td");
+                                                if (nodes1 != null)
+                                                {
+                                                    List<string> RefArray = new List<string>();
+                                                    foreach (HtmlNode node1 in nodes1)
+                                                    {
+                                                        counter++;
+                                                        string RefContent = node1.InnerText;
+                                                        Console.WriteLine(counter + " - " + RefContent);
+                                                        if (counter % 2 == 0)
+                                                        {
+                                                            RefArray.Add(RefContent);
+                                                        }
+                                                    }
+                                                    if (RefArray.Count > 0)
+                                                        selContent.Reference = Regex.Replace(RefArray[0], @"<[^>]+>|&nbsp;", "").Trim();
+
+                                                    if (RefArray.Count > 1)
+                                                        selContent.BookRef = Regex.Replace(RefArray[1], @"<[^>]+>|&nbsp;", "").Trim();
+
+                                                    if (RefArray.Count > 2)
+                                                        selContent.USCRef = Regex.Replace(RefArray[2], @"<[^>]+>|&nbsp;", "").Trim();
+                                                }
+
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectNodes(".//span[@class='arabic_sanad arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.SanadTop = subnode[0].InnerHtml;
+                                                if (subnode.Count > 1)
+                                                    selContent.SanadBottom = subnode[1].InnerHtml;
+                                            }
+
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//div[@class='arabic_hadith_full arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.ContentArabic = subnode.InnerHtml;
+                                            }
+                                        }
+                                        ctx.HadithContents.Add(selContent);
+                                        ContentCounter++;
+                                        if (ContentCounter > 100)
+                                        {
+                                            ctx.SaveChanges();
+                                            ContentCounter = 0;
+                                        }
+                                        break;
+                                    default: break;
+                                }
+                              
+                            }
+
+
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    ctx.SaveChanges();
+                }
+            }
+        }
         static void GetHisnContent()
         {
 
@@ -2343,7 +3007,7 @@ namespace Hadith.Parser
                                             var subnode = node.SelectSingleNode(".//span[@class='hisn_english_reference']");
                                             if (subnode != null)
                                             {
-                                                selContent.Reference = subnode.InnerHtml;
+                                                selContent.Reference = Regex.Replace(subnode.InnerHtml, @"<[^>]+>|&nbsp;", "").Trim() ;
                                             }
                                         }
                                         {
@@ -2373,6 +3037,183 @@ namespace Hadith.Parser
                                         ctx.HadithContents.Add(selContent);
                                         ContentCounter++;
                                         
+                                        break;
+                                    default: break;
+
+                                }
+                            }
+
+
+                        }
+                        if (ContentCounter > 100)
+                        {
+                            ctx.SaveChanges();
+                            ContentCounter = 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    ctx.SaveChanges();
+                }
+            }
+        }
+        static void GetWaliullahContent()
+        {
+
+            HadithDBEntities ctx = new HadithDBEntities();
+            var hadist = (from c in ctx.Hadiths
+                          where c.HadithID == 21
+                          select c).ToList();
+
+            for (int i = 0; i < hadist.Count; i++)
+            {
+                var selHadith = hadist[i];
+                var hadistIndex = (from c in ctx.HadithIndexes
+                                   where c.HadithID == selHadith.HadithID
+                                   orderby c.No
+                                   select c).ToList();
+                for (int j = 0; j < hadistIndex.Count; j++)
+                {
+                    var selIndex = hadistIndex[j];
+                    var selURL = string.Format("https://sunnah.com/{0}", selHadith.Name);
+
+                    try
+                    {
+                        var Webget = new HtmlWeb();
+
+                        var doc = Webget.Load(selURL);
+                        HadithChapter selChapter = null;
+                        int ContentCounter = 0;
+
+                        HadithPage selPage = new HadithPage();
+                        selPage.PageNo = selIndex.No;
+                        selPage.HadithID = selHadith.HadithID;
+                        var hadithnode = doc.DocumentNode.SelectSingleNode(".//div[@class='AllHadith']");
+                        //get title
+                        int counter = 0;
+                        foreach (HtmlNode node in hadithnode.SelectNodes("//div"))
+                        {
+                            if (node.Attributes["class"] != null && !string.IsNullOrEmpty(node.Attributes["class"].Value))
+                            {
+                                switch (node.Attributes["class"].Value)
+                                {
+                                    case "book_page_english_name":
+                                        selPage.Title = node.InnerHtml;
+                                        break;
+                                    case "book_page_arabic_name arabic":
+                                        selPage.TitleArabic = node.InnerHtml;
+                                        //ctx.HadithPages.Add(selPage);
+                                        break;
+
+                                    case "chapter":
+                                        selChapter = new HadithChapter();
+                                        selChapter.HadithID = selHadith.HadithID;
+                                        selChapter.PageNo = selPage.PageNo;
+                                        //iterate every chapter
+                                        var chapterNode = node;
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='echapno']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.ChapterNo = Convert.ToInt32(subnode.InnerText.Replace("(", "").Replace(")", ""));
+                                            }
+                                        }
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='englishchapter']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.Title = subnode.InnerText;
+                                            }
+                                        }
+                                        {
+                                            var subnode = chapterNode.SelectSingleNode(".//div[@class='arabicchapter arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selChapter.TitleArabic = subnode.InnerText;
+                                            }
+                                        }
+                                        ctx.HadithChapters.Add(selChapter);
+
+                                        break;
+                                    case "arabic achapintro":
+                                        {
+                                            selChapter.Intro = node.InnerText;
+                                            ctx.SaveChanges();
+                                        }
+                                        break;
+                                    case "actualHadithContainer hadith_container_forty":
+                                        HadithContent selContent = new HadithContent();
+                                        selContent.HadithID = selHadith.HadithID;
+                                        selContent.PageNo = selPage.PageNo;
+                                        if (selChapter != null)
+                                        {
+                                            selContent.ChapterNo = selChapter.ChapterNo;
+                                        }
+                                        else
+                                        {
+                                            selContent.ChapterNo = -1;
+                                        }
+                                        {
+                                            //var subnode = node.SelectSingleNode(".//div[@class='hadith_narrated']");
+                                            //if (subnode != null)
+                                            //{
+                                            //    selContent.Narated = subnode.InnerHtml;
+                                            //}
+                                            selContent.Narated = "-";
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//div[@class='text_details']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.ContentEnglish = subnode.InnerHtml;
+                                            }
+                                        }
+                                        {
+                                            //var subnode = node.SelectSingleNode(".//table[@class='gradetable']");
+                                            //if (subnode != null)
+                                            //{
+                                            //    selContent.Grade = subnode.InnerText;
+                                            //}
+                                            selContent.Grade = "-";
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//table[@class='hadith_reference']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.Reference = Regex.Replace(subnode.InnerText, @"<[^>]+>|&nbsp;", "").Trim() ;
+                                            }
+                                        }
+                                        {
+                                            var subnode = node.SelectNodes(".//span[@class='arabic_sanad arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.SanadTop = subnode[0].InnerHtml;
+                                                if (subnode.Count > 1)
+                                                    selContent.SanadBottom = subnode[1].InnerHtml;
+                                            }
+
+                                        }
+                                        {
+                                            var subnode = node.SelectSingleNode(".//span[@class='arabic_text_details arabic']");
+                                            if (subnode != null)
+                                            {
+                                                selContent.ContentArabic = subnode.InnerHtml;
+                                            }
+                                        }
+                                        counter++;
+                                        selContent.OtherRef = "";
+                                        selContent.BookRef = "";
+                                        selContent.UrlRef = $"https://sunnah.com/shahwaliullah40:{counter}";
+                                        selContent.USCRef = "";
+                                        selContent.ContentIndonesia = "";
+                                        selContent.ContentUrdu = "";
+                                        selContent.HadithOrder = ContentCounter;
+                                        ctx.HadithContents.Add(selContent);
+                                        ContentCounter++;
+
                                         break;
                                     default: break;
 
@@ -2611,6 +3452,74 @@ namespace Hadith.Parser
             }
             Console.WriteLine("selesai baca chapter");
             Console.ReadLine();
+        }
+
+        static void GetIndex(int HadithID)
+        {
+
+            HadithDBEntities ctx = new HadithDBEntities();
+            var hadist = (from c in ctx.Hadiths
+                          where c.HadithID == HadithID
+                          select c).ToList();
+
+            for (int i = 0; i < hadist.Count(); i++)
+            {
+                var item = hadist[i];
+
+
+                try
+                {
+                    var Webget = new HtmlWeb();
+
+                    var doc = Webget.Load(string.Format("https://sunnah.com/{0}", item.Name));
+                    foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//div[@class='colindextitle incomplete']//div[@class='arabic']"))
+                    {
+                        item.Arabic = node.InnerHtml;
+                        continue;
+                    }
+                    var nodes = doc.DocumentNode.SelectNodes("//div[@class='book_titles titles']//div[contains(@class,'book_title title')]");
+                    foreach (HtmlNode node in nodes)
+                    {
+                        HadithIndex newNode = new HadithIndex();
+                        newNode.HadithID = item.HadithID;
+                        try
+                        {
+                            {
+                                var subnode = node.SelectSingleNode(".//div[@class='book_number title_number']");
+                                newNode.No = Convert.ToInt32(string.IsNullOrEmpty(subnode.InnerText)?"0": subnode.InnerText);
+                            }
+                            {
+                                var subnode = node.SelectSingleNode(".//div[@class='english english_book_name']");
+                                newNode.Name = subnode.InnerText;
+                            }
+                            {
+                                var subnode = node.SelectSingleNode(".//div[@class='arabic arabic_book_name']");
+                                newNode.ArabicName = subnode.InnerText;
+                            }
+                            {
+                                var subnode = node.SelectNodes(".//div[@class='book_range']");
+                                var rangestr = subnode.FirstOrDefault().InnerText;
+
+                                newNode.IndexFrom = Convert.ToInt32(Regex.Split(rangestr, "to")[0].Trim());
+                                newNode.IndexTo = Convert.ToInt32(Regex.Split(rangestr, "to")[1].Trim());
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                        ctx.HadithIndexes.Add(newNode);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+                ctx.SaveChanges();
+
+            }
         }
 
         static void GetIndex()
